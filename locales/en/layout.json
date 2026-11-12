@@ -1,5 +1,9 @@
 {
   "nav": {
+    "home": "Home",
+    "label": "Main navigation",
+    "upcoming_one": "{{count}} upcoming ticket",
+    "upcoming_other": "{{count}} upcoming tickets",
     "films": "Films",
     "cinemas": "Cinemas",
     "tickets": "My tickets",
@@ -7,7 +11,9 @@
   },
   "header": {
     "city": "City",
-    "language": "Language"
+    "language": "Language",
+    "search": "Search films",
+    "searchPlaceholder": "Search film titles"
   },
   "hero": {
     "buy": "Buy tickets",
@@ -18,18 +24,14 @@
   "home": {
     "nowSub": "Films playing in {{city}} this week",
     "soonSub": "Save the date, pre-sale opens close to release",
-    "featureEyebrow": "3D seat preview",
     "featureTitle": "See the screen first, then pick your seat",
-    "featureDesc": "Hover over any seat on the map and the camera flies straight to it. See how big the screen is, the viewing angle, and who's sitting in front of you before you pay.",
-    "featureCta": "Try it now",
-    "steps": {
-      "film": "Pick a film and showtime",
-      "seat": "Hover over a seat to see its view",
-      "pay": "Pay and show the QR at the studio door"
-    },
+    "featureDesc": "Hover over any seat on the map and the camera moves there. See how big the screen is and whose head is in front of you before you pay.",
+    "featureCta": "Open the seat map for {{time}}",
     "cinemasTitle": "Cinemas in {{city}}",
     "cinemasSub": "{{count}} Nontonin locations",
-    "seeAllCinemas": "All cinemas"
+    "seeAllCinemas": "All cinemas",
+    "featureWhere": "{{film}} at {{cinema}}, {{day}}",
+    "featureFallback": "See showtimes"
   },
   "films": {
     "title": "Films",
@@ -37,7 +39,10 @@
     "soon": "Coming soon",
     "count_one": "{{count}} film",
     "count_other": "{{count}} films",
-    "empty": "No films here yet."
+    "empty": "No films here yet.",
+    "noMatch": "No films match \"{{q}}\".",
+    "resultsFor": "Results for \"{{q}}\"",
+    "clear": "Clear search"
   },
   "film": {
     "trailerNote": "Runtime {{duration}}",
@@ -82,7 +87,8 @@
     "showtimePast": "This showtime has passed. Pick another one.",
     "viewMine": "The view from your seat",
     "viewMineDesc": "A 3D preview from the seats you already bought.",
-    "backToTicket": "Back to ticket"
+    "backToTicket": "Back to ticket",
+    "previewOf": "View from seat {{seat}}"
   },
   "checkout": {
     "title": "Payment",
@@ -99,8 +105,6 @@
     "cinema": "Cinema"
   },
   "footer": {
-    "tagline": "Book cinema tickets and see the screen from your seat before you buy.",
-    "explore": "Explore",
     "credit": "UI/UX concept inspired by \"{{concept}}\" by {{designer}}.",
     "demo": "The cinemas, showtimes and payments on this site are fictional and made for the demo.",
     "rights": "© {{year}} Nontonin"

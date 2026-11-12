@@ -1,5 +1,11 @@
-import { Badge, Group, Skeleton, Stack, Text, Title } from '@mantine/core';
-import { CalendarBlank, Clock, MapPin, Star } from '@phosphor-icons/react';
+import { Button, Group, Skeleton, Stack, Text, Title } from '@mantine/core';
+import {
+  CalendarBlank,
+  Clock,
+  ShieldCheck,
+  Star,
+  Ticket,
+} from '@phosphor-icons/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -20,7 +26,7 @@ import ShowtimeChips from 'modules/components/showtime-chips';
 import * as styles from './styles.css';
 
 export default function FilmScreen() {
-  const { t } = useTranslation(['booking', 'layout', 'common']);
+  const { t } = useTranslation(['booking', 'layout', 'common', 'home']);
   const { lang } = useLanguage();
   const { city } = useCity();
   const query = useRouter()
@@ -44,9 +50,8 @@ export default function FilmScreen() {
           />
         ) : (
           <>
-            <Skeleton h={440} radius={0} />
-            <Container>
-              <Skeleton h={300} w={260} mt={-200} radius={18} />
+            <Container className={styles.page}>
+              <Skeleton h={390} w={260} radius="md" />
             </Container>
           </>
         )}
@@ -58,7 +63,7 @@ export default function FilmScreen() {
 
   return (
     <AppLayout title={f.title}>
-      <div className={styles.backdrop}>
+      <div className={styles.backdrop} aria-hidden>
         <Image
           src={f.backdrop}
           alt=""
@@ -69,59 +74,67 @@ export default function FilmScreen() {
         />
         <div className={styles.backdropShade} />
       </div>
-      <Container>
+      <Container className={styles.page}>
         <div className={styles.top}>
           <div className={styles.poster}>
             <Image
               src={f.poster}
               alt={f.title}
               fill
-              sizes="260px"
+              sizes="(min-width: 768px) 260px, 140px"
               style={{ objectFit: 'cover' }}
               priority
             />
           </div>
-          <Stack gap={14} pb={8}>
-            {soon && f.releaseDate && (
-              <Badge variant="light" size="lg" radius="sm" w="fit-content">
-                {t('layout:hero.comingSoon')} ·{' '}
-                {formatDate(f.releaseDate, 'd MMM yyyy', lang)}
-              </Badge>
-            )}
-            <Title order={1} fz={52} lh={1.05} style={{ letterSpacing: -1 }}>
+          <Stack gap={16} className={styles.info}>
+            <Title order={1} className={styles.title}>
               {f.title}
             </Title>
-            <Group gap={18}>
-              {f.rating && (
-                <span className={styles.ratingPill}>{f.rating}</span>
-              )}
+            {f.score != null && (
+              <Group gap={6}>
+                <Star size={18} weight="fill" color={colors.star} />
+                <Text fw={700} fz={18}>
+                  {f.score.toFixed(1)}
+                </Text>
+                <Text c="dimmed" size="sm">
+                  / 10
+                </Text>
+              </Group>
+            )}
+            <Group gap={8}>
+              {f.genres.map((g) => (
+                <span key={g} className={styles.chip}>
+                  {g}
+                </span>
+              ))}
+            </Group>
+            <Group gap={20}>
               {f.duration != null && (
                 <Group gap={6}>
-                  <Clock size={16} color={colors.muted} />
-                  <Text c="dimmed">{formatDuration(f.duration, lang)}</Text>
+                  <Clock size={18} color={colors.muted} aria-hidden />
+                  <Text>{formatDuration(f.duration, lang)}</Text>
                 </Group>
               )}
-              {f.score != null && (
+              {f.rating && (
                 <Group gap={6}>
-                  <Star size={16} weight="fill" color={colors.warm} />
-                  <Text fw={600}>{f.score.toFixed(1)}</Text>
+                  <ShieldCheck size={18} color={colors.muted} aria-hidden />
+                  <Text>{f.rating}</Text>
                 </Group>
               )}
-              <Text c="dimmed">{f.genres.join(', ')}</Text>
+              {soon && f.releaseDate && (
+                <Group gap={6}>
+                  <CalendarBlank size={18} color={colors.muted} aria-hidden />
+                  <Text>
+                    {t('home:releaseOn', {
+                      date: formatDate(f.releaseDate, 'd MMMM yyyy', lang),
+                    })}
+                  </Text>
+                </Group>
+              )}
             </Group>
-          </Stack>
-        </div>
-
-        <div className={styles.body}>
-          <div className={styles.info}>
-            <div>
-              <Title order={3} fz={18} mb={8}>
-                {t('film.synopsis')}
-              </Title>
-              <Text c="#C9C7CF" lh={1.7}>
-                {f.synopsis}
-              </Text>
-            </div>
+            <Text c="#C9C7CF" lh={1.7} maw={640}>
+              {f.synopsis}
+            </Text>
             {(f.director || f.cast.length > 0) && (
               <div className={styles.credits}>
                 {f.director && (
@@ -137,89 +150,88 @@ export default function FilmScreen() {
                     <Text c="dimmed" size="sm">
                       {t('film.cast')}
                     </Text>
-                    <Text size="sm">{f.cast.join(', ')}</Text>
+                    <Text size="sm">{f.cast.slice(0, 6).join(', ')}</Text>
                   </>
                 )}
               </div>
             )}
-          </div>
-
-          <section className={styles.schedule}>
-            <Group justify="space-between" mb={18}>
-              <Title order={2} fz={24}>
-                {t('film.schedule')}
-              </Title>
-              <Group gap={6}>
-                <MapPin size={16} weight="fill" color={colors.sel} />
-                <Text size="sm" fw={600}>
-                  {t('layout:film.playingIn', { city: city.name })}
-                </Text>
-              </Group>
-            </Group>
-            {soon ? (
-              <StateView
-                empty={{
-                  icon: <CalendarBlank size={36} color={colors.dim} />,
-                  title: t('film.comingSoon', {
-                    date: f.releaseDate
-                      ? formatDate(f.releaseDate, 'EEEE, d MMMM yyyy', lang)
-                      : '',
-                  }),
-                }}
-                minHeight={200}
-              />
-            ) : (
-              <>
-                <DateStrip value={date} onChange={setDate} />
-                <Text size="sm" c="dimmed" mt={18}>
-                  {t('layout:film.pickTime')}
-                </Text>
-                <div style={{ marginTop: 6 }}>
-                  {schedule.isLoading || schedule.error ? (
-                    <StateView
-                      loading={schedule.isLoading}
-                      error={schedule.error}
-                      onRetry={schedule.refetch}
-                      minHeight={200}
-                    />
-                  ) : !schedule.data?.length ? (
-                    <StateView
-                      empty={{ title: t('layout:film.noScheduleDay') }}
-                      minHeight={200}
-                    />
-                  ) : (
-                    schedule.data.map(({ cinema, showtimes }) => (
-                      <div key={cinema.id} className={styles.cinemaRow}>
-                        <div>
-                          <Link
-                            href={buildUrl(NavigationRoutes.CinemaDetail, {
-                              paths: { id: cinema.id },
-                            })}
-                          >
-                            <Text fw={700}>{cinema.name}</Text>
-                          </Link>
-                          <Text
-                            size="sm"
-                            c={
-                              cinema.tier === 'premiere'
-                                ? colors.warm
-                                : 'dimmed'
-                            }
-                            fw={500}
-                          >
-                            {t(`common:tier.${cinema.tier}`)} ·{' '}
-                            {t('common:studio', { n: showtimes[0].studio })}
-                          </Text>
-                        </div>
-                        <ShowtimeChips showtimes={showtimes} />
-                      </div>
-                    ))
-                  )}
-                </div>
-              </>
+            {!soon && (
+              <Button
+                component="a"
+                href="#jadwal"
+                size="md"
+                w="fit-content"
+                mt={4}
+                leftSection={<Ticket size={18} weight="fill" />}
+              >
+                {t('layout:hero.buy')}
+              </Button>
             )}
-          </section>
+          </Stack>
         </div>
+
+        <section id="jadwal" className={styles.schedule}>
+          <div className={styles.scheduleHead}>
+            <Title order={2} fz={26} style={{ letterSpacing: -0.5 }}>
+              {t('film.schedule')}
+            </Title>
+            <Text size="sm" c="dimmed">
+              {t('layout:film.playingIn', { city: city.name })}
+            </Text>
+          </div>
+          {soon ? (
+            <StateView
+              empty={{
+                icon: <CalendarBlank size={36} color={colors.muted} />,
+                title: t('film.comingSoon', {
+                  date: f.releaseDate
+                    ? formatDate(f.releaseDate, 'EEEE, d MMMM yyyy', lang)
+                    : '',
+                }),
+              }}
+              minHeight={200}
+            />
+          ) : (
+            <>
+              <DateStrip value={date} onChange={setDate} />
+              <div className={styles.cinemas}>
+                {schedule.isLoading || schedule.error ? (
+                  <StateView
+                    loading={schedule.isLoading}
+                    error={schedule.error}
+                    onRetry={schedule.refetch}
+                    minHeight={200}
+                  />
+                ) : !schedule.data?.length ? (
+                  <StateView
+                    empty={{ title: t('layout:film.noScheduleDay') }}
+                    minHeight={200}
+                  />
+                ) : (
+                  schedule.data.map(({ cinema, showtimes }) => (
+                    <div key={cinema.id} className={styles.cinemaRow}>
+                      <div>
+                        <Link
+                          href={buildUrl(NavigationRoutes.CinemaDetail, {
+                            paths: { id: cinema.id },
+                          })}
+                          className={styles.cinemaName}
+                        >
+                          {cinema.name}
+                        </Link>
+                        <Text size="sm" c="dimmed">
+                          {t(`common:tier.${cinema.tier}`)},{' '}
+                          {t('common:studio', { n: showtimes[0].studio })}
+                        </Text>
+                      </div>
+                      <ShowtimeChips showtimes={showtimes} />
+                    </div>
+                  ))
+                )}
+              </div>
+            </>
+          )}
+        </section>
       </Container>
     </AppLayout>
   );

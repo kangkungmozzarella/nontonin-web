@@ -6,7 +6,7 @@ import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { QueryClientProvider } from '@tanstack/react-query';
 import type { AppProps } from 'next/app';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import { I18nextProvider } from 'react-i18next';
 import i18n from 'common/i18n';
 import { queryClient } from 'common/api/query-client';
@@ -16,9 +16,10 @@ import { LanguageSync } from 'hooks/use-language';
 import { LocationProvider } from 'hooks/use-user-location';
 import theme from 'styles/theme';
 
-const inter = Inter({
+// Plus Jakarta Sans: Indonesian-designed geometric sans (see DESIGN.md)
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
+  weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
 });
 
@@ -28,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
       {/* Expose the font on :root so Mantine's body styles and portals pick it up */}
       <style jsx global>{`
         :root {
-          --font-inter: ${inter.style.fontFamily};
+          --font-jakarta: ${jakarta.style.fontFamily};
         }
       `}</style>
       <MantineProvider theme={theme} forceColorScheme="dark">

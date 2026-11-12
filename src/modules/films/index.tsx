@@ -1,4 +1,5 @@
-import { SegmentedControl, Skeleton, Text, Title } from '@mantine/core';
+import { Button, SegmentedControl, Skeleton, Text, Title } from '@mantine/core';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import { NavigationRoutes, RouterQueryType } from 'common/routes';
@@ -17,29 +18,35 @@ export default function FilmsScreen() {
   const navigation = useNontoninNavigation();
   const query = router.query as RouterQueryType<NavigationRoutes.Films>;
   const tab: FilmStatus = query.tab === 'soon' ? 'soon' : 'now';
+  const q = typeof query.q === 'string' ? query.q.trim() : '';
   const films = useGetFilms({ status: tab });
+  const list = React.useMemo(() => {
+    const needle = q.toLocaleLowerCase();
+    return (films.data ?? []).filter(
+      (f) => !needle || f.title.toLocaleLowerCase().includes(needle),
+    );
+  }, [films.data, q]);
 
   return (
     <AppLayout title={t('films.title')}>
       <Container className={styles.page}>
         <div className={styles.head}>
           <div>
-            <Title order={1} fz={40} style={{ letterSpacing: -0.8 }}>
-              {t('films.title')}
+            <Title order={1} fz={40} style={{ letterSpacing: -1 }}>
+              {q ? t('films.resultsFor', { q }) : t('films.title')}
             </Title>
             {films.data && (
               <Text c="dimmed" mt={4}>
-                {t('films.count', { count: films.data.length })}
+                {t('films.count', { count: list.length })}
               </Text>
             )}
           </div>
           <SegmentedControl
             size="md"
-            radius="xl"
             value={tab}
             onChange={(v) =>
               navigation.replace(NavigationRoutes.Films, {
-                query: { tab: v as FilmStatus },
+                query: { tab: v as FilmStatus, q: q || undefined },
               })
             }
             data={[
@@ -51,16 +58,32 @@ export default function FilmsScreen() {
         {films.isLoading ? (
           <div className={componentStyles.posterGrid}>
             {Array.from({ length: 12 }, (_, i) => (
-              <Skeleton key={i} style={{ aspectRatio: '2 / 3' }} radius={14} />
+              <Skeleton key={i} style={{ aspectRatio: '2 / 3' }} radius="md" />
             ))}
           </div>
         ) : films.error ? (
           <StateView error={films.error} onRetry={films.refetch} />
-        ) : !films.data?.length ? (
-          <StateView empty={{ title: t('films.empty') }} />
+        ) : !list.length ? (
+          q ? (
+            <div className={styles.noMatch}>
+              <Text c="dimmed">{t('films.noMatch', { q })}</Text>
+              <Button
+                variant="default"
+                onClick={() =>
+                  navigation.replace(NavigationRoutes.Films, {
+                    query: { tab },
+                  })
+                }
+              >
+                {t('films.clear')}
+              </Button>
+            </div>
+          ) : (
+            <StateView empty={{ title: t('films.empty') }} />
+          )
         ) : (
           <div className={componentStyles.posterGrid}>
-            {films.data.map((f, i) => (
+            {list.map((f, i) => (
               <FilmPosterCard key={f.id} film={f} priority={i < 6} />
             ))}
           </div>

@@ -1,17 +1,25 @@
+import breakpoints from 'common/styles/breakpoint';
 import { HEADER_HEIGHT } from 'common/styles/size';
 import { style, vars } from 'styles/styles.css';
 
 export const page = style({
   paddingTop: 40,
   display: 'grid',
-  gridTemplateColumns: '1.3fr 1fr',
-  gap: 32,
+  gridTemplateColumns: 'minmax(0, 1.3fr) minmax(0, 1fr)',
+  gap: 24,
   alignItems: 'start',
+  '@media': {
+    [breakpoints.screenMaxLg]: {
+      gridTemplateColumns: 'minmax(0, 1fr)',
+      paddingTop: 24,
+    },
+  },
 });
 
 export const card = style({
   padding: 28,
-  borderRadius: 22,
+  borderRadius: vars.radius.md,
+  '@media': { [breakpoints.screenMaxSm]: { padding: 18 } },
   border: `1px solid ${vars.color.line}`,
   background: vars.color.panel,
 });
@@ -19,6 +27,7 @@ export const card = style({
 export const summary = style({
   position: 'sticky',
   top: HEADER_HEIGHT + 24,
+  '@media': { [breakpoints.screenMaxLg]: { position: 'static' } },
 });
 
 export const methods = style({
@@ -26,14 +35,16 @@ export const methods = style({
   gridTemplateColumns: '1fr 1fr',
   gap: 12,
   marginTop: 16,
+  '@media': { [breakpoints.screenMaxSm]: { gridTemplateColumns: '1fr' } },
 });
 
 export const method = style({
   display: 'flex',
   alignItems: 'center',
   gap: 14,
-  padding: '18px 18px',
-  borderRadius: 16,
+  padding: 18,
+  borderRadius: vars.radius.sm,
+  fontFamily: 'inherit',
   border: `1px solid ${vars.color.line}`,
   background: vars.color.panel2,
   color: vars.color.text,
@@ -43,8 +54,8 @@ export const method = style({
   selectors: {
     '&:hover': { borderColor: vars.color.lineStrong },
     '&[data-active="true"]': {
-      borderColor: vars.color.sel,
-      background: vars.color.selSoft,
+      borderColor: vars.color.accent,
+      boxShadow: `inset 0 0 0 1px ${vars.color.accent}`,
     },
   },
 });

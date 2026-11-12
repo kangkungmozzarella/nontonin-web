@@ -1,34 +1,38 @@
-// Same palette as the Nontonin mobile app
+// Palette from DESIGN.md (shared with the mobile app). Contrast ratios noted where a pairing is used.
 const colors = {
   bg: '#0B0A0E',
   bgDeep: '#060507',
-  panel: '#141417',
-  panel2: '#1C1C20',
-  panel3: '#24242A',
-  line: '#27272C',
-  lineStrong: '#36363D',
+  panel: '#16151A',
+  panel2: '#1D1C22',
+  panel3: '#26252C',
+  line: '#2A2930',
+  lineStrong: '#3A3940',
 
   text: '#F3F2EF',
-  muted: '#8F8D95',
-  dim: '#5D5C63',
+  muted: '#8F8D95', // 5.2:1 on panel
+  dim: '#8A8890', // 5.19:1 on panel
 
-  seat: '#3A3A41',
-  seatHover: '#4C4C55',
-  taken: '#24242A',
-  recl: '#6B222B',
-  reclHover: '#862B36',
-  reclTaken: '#3B1C21',
-  sel: '#7CF2B4',
-  selInk: '#05261A',
-  selSoft: 'rgba(124,242,180,0.14)',
+  // Red curtain accent: primary button, active item, selected seat only
+  accent: '#C8102E', // 3.35:1 on bg, so never small text on dark
+  accentHover: '#A80D26',
+  onAccent: '#F3F2EF', // 5.26:1 on accent
+  accentSoft: 'rgba(200,16,46,0.14)',
 
-  warm: '#FFB86B',
+  // Seat states (non-text, 3:1 against bg)
+  seatFill: '#1D1C22',
+  seatLine: '#6A6971', // 3.64:1
+  seatHover: '#2E2D35',
+  takenFill: '#26252C',
+  takenMark: '#8A8890',
+  recl: '#9A6A42', // leather, 4.24:1
+  reclFill: '#2A2019',
+  reclHover: '#3A2B20',
+
+  star: '#FFB86B',
   danger: '#FF8F8F',
-  info: '#9DB8FF',
-  violet: '#D0B8FF',
 
   overlay: 'rgba(5,5,8,0.72)',
-  glass: 'rgba(14,13,17,0.82)',
+  scrim: 'rgba(11,10,14,0.86)',
   white: '#FFFFFF',
   black: '#000000',
 };

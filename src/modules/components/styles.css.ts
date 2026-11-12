@@ -11,17 +11,17 @@ export const posterCard = style({
 export const posterFrame = style({
   position: 'relative',
   aspectRatio: '2 / 3',
-  borderRadius: 14,
+  borderRadius: vars.radius.md,
   overflow: 'hidden',
   background: vars.color.panel2,
-  border: `1px solid ${vars.color.line}`,
-  transition:
-    'transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease',
+  outline: `1px solid ${vars.color.line}`,
+  outlineOffset: -1,
+  transition: 'outline-color 150ms ease',
   selectors: {
-    [`${posterCard}:hover &`]: {
-      transform: 'translateY(-4px)',
-      borderColor: vars.color.lineStrong,
-      boxShadow: '0 18px 40px rgba(0,0,0,0.55)',
+    [`${posterCard}:hover &`]: { outlineColor: vars.color.muted },
+    [`${posterCard}:focus-visible &`]: {
+      outline: `2px solid ${vars.color.text}`,
+      outlineOffset: 2,
     },
   },
 });
@@ -63,6 +63,17 @@ export const posterGrid = style({
 });
 
 /* section header */
+export const sectionLink = style({
+  fontSize: 14,
+  fontWeight: 600,
+  color: vars.color.text,
+  textDecoration: 'underline',
+  textUnderlineOffset: 4,
+  textDecorationColor: vars.color.lineStrong,
+  whiteSpace: 'nowrap',
+  selectors: { '&:hover': { textDecorationColor: vars.color.text } },
+});
+
 export const sectionHeader = style({
   display: 'flex',
   alignItems: 'flex-end',
@@ -83,10 +94,11 @@ export const dateChip = style({
   flex: '0 0 auto',
   width: 76,
   paddingBlock: 10,
-  borderRadius: 14,
+  borderRadius: vars.radius.sm,
   border: `1px solid ${vars.color.line}`,
   background: vars.color.panel,
   color: vars.color.text,
+  fontFamily: 'inherit',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -96,9 +108,9 @@ export const dateChip = style({
   selectors: {
     '&:hover': { borderColor: vars.color.lineStrong },
     '&[data-active="true"]': {
-      background: vars.color.sel,
-      borderColor: vars.color.sel,
-      color: vars.color.selInk,
+      background: vars.color.accent,
+      borderColor: vars.color.accent,
+      color: vars.color.onAccent,
     },
   },
 });
@@ -114,7 +126,7 @@ export const timeChip = style({
   minWidth: 84,
   height: 44,
   paddingInline: 16,
-  borderRadius: 12,
+  borderRadius: vars.radius.sm,
   border: `1px solid ${vars.color.lineStrong}`,
   background: vars.color.panel2,
   color: vars.color.text,
@@ -126,7 +138,7 @@ export const timeChip = style({
   transition:
     'border-color 150ms ease, background 150ms ease, color 150ms ease',
   selectors: {
-    '&:hover': { borderColor: vars.color.sel, color: vars.color.sel },
+    '&:hover': { borderColor: vars.color.text, background: vars.color.panel3 },
     '&[data-disabled="true"]': {
       color: vars.color.dim,
       borderColor: vars.color.line,

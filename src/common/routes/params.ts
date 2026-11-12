@@ -3,7 +3,10 @@ import { NavigationRoutes } from './route';
 // Typed path segments and query strings for each route
 export interface RouteParams {
   [NavigationRoutes.Home]: { paths?: never; query?: never };
-  [NavigationRoutes.Films]: { paths?: never; query?: { tab?: 'now' | 'soon' } };
+  [NavigationRoutes.Films]: {
+    paths?: never;
+    query?: { tab?: 'now' | 'soon'; q?: string };
+  };
   [NavigationRoutes.FilmDetail]: {
     paths: { id: string };
     query?: { date?: string };

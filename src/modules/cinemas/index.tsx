@@ -1,4 +1,4 @@
-import { Badge, Button, Group, Text, Title } from '@mantine/core';
+import { Button, Group, Text, Title } from '@mantine/core';
 import { MapPin, NavigationArrow } from '@phosphor-icons/react';
 import Link from 'next/link';
 import React from 'react';
@@ -37,7 +37,7 @@ export default function CinemasScreen() {
       <Container className={styles.page}>
         <div className={styles.head}>
           <div>
-            <Title order={1} fz={40} style={{ letterSpacing: -0.8 }}>
+            <Title order={1} fz={40} style={{ letterSpacing: -1 }}>
               {t('cinemas.title', { city: city.name })}
             </Title>
             <Text c="dimmed" mt={4}>
@@ -52,7 +52,7 @@ export default function CinemasScreen() {
             </Text>
             <Button
               size="xs"
-              variant="light"
+              variant="default"
               leftSection={<NavigationArrow size={14} weight="fill" />}
               onClick={request}
             >
@@ -70,7 +70,7 @@ export default function CinemasScreen() {
           <div className={styles.list}>
             {items.map(({ cinema: c, km }) => (
               <article key={c.id} className={styles.card}>
-                <Group justify="space-between" align="flex-start">
+                <Group justify="space-between" align="flex-start" wrap="nowrap">
                   <div>
                     <Title order={2} fz={20}>
                       {c.name}
@@ -82,22 +82,20 @@ export default function CinemasScreen() {
                       </Text>
                     </Group>
                   </div>
-                  <Badge
-                    variant="light"
-                    color={c.tier === 'premiere' ? 'orange' : 'gray'}
-                  >
+                  <span className={styles.tier}>
                     {t(`common:tier.${c.tier}`)}
-                  </Badge>
+                  </span>
                 </Group>
                 <Text size="sm" c="dimmed">
                   {t('cinemas.studios', { count: c.studios })}
                   {km != null
-                    ? ` · ${t('cinemas.away', { distance: formatDistance(km) })}`
+                    ? `, ${t('cinemas.away', { distance: formatDistance(km) })}`
                     : ''}
                 </Text>
                 <Group mt={4}>
                   <Button
                     component={Link}
+                    variant="default"
                     href={buildUrl(NavigationRoutes.CinemaDetail, {
                       paths: { id: c.id },
                     })}

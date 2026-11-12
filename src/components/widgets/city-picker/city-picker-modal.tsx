@@ -1,4 +1,4 @@
-import { Badge, Button, Group, Modal, Text } from '@mantine/core';
+import { Button, Group, Modal, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { NavigationArrow } from '@phosphor-icons/react';
 import React from 'react';
@@ -49,7 +49,7 @@ export default function CityPickerModal({
       </Text>
       <Group mt="md">
         <Button
-          variant="light"
+          variant="default"
           leftSection={<NavigationArrow size={16} weight="fill" />}
           loading={locating}
           onClick={locate}
@@ -74,13 +74,13 @@ export default function CityPickerModal({
               <Group gap={6}>
                 <Text fw={600}>{c.name}</Text>
                 {c.id === nearest && (
-                  <Badge size="xs" variant="light">
-                    {t('cityPicker.nearest')}
-                  </Badge>
+                  <Text size="xs" c="dimmed">
+                    ({t('cityPicker.nearest').toLocaleLowerCase()})
+                  </Text>
                 )}
               </Group>
               <Text size="xs" c="dimmed">
-                {c.province} · {t('cinemas.subtitle', { count })}
+                {c.province}, {t('cinemas.subtitle', { count })}
               </Text>
             </button>
           );

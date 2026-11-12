@@ -1,6 +1,6 @@
 import { style, vars } from 'styles/styles.css';
 
-export const page = style({ paddingTop: 48 });
+export const page = style({ paddingTop: 40 });
 
 export const head = style({
   display: 'flex',
@@ -12,7 +12,7 @@ export const head = style({
 
 export const list = style({
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(min(380px, 100%), 1fr))',
   gap: 16,
 });
 
@@ -21,7 +21,7 @@ export const card = style({
   flexDirection: 'column',
   gap: 12,
   padding: 24,
-  borderRadius: 20,
+  borderRadius: vars.radius.md,
   border: `1px solid ${vars.color.line}`,
   background: vars.color.panel,
 });
@@ -32,8 +32,22 @@ export const hint = style({
   justifyContent: 'space-between',
   gap: 16,
   padding: '14px 18px',
-  borderRadius: 14,
+  borderRadius: vars.radius.sm,
+  flexWrap: 'wrap',
   border: `1px solid ${vars.color.line}`,
   background: vars.color.panel,
   marginBottom: 20,
+});
+
+export const tier = style({
+  flexShrink: 0,
+  height: 26,
+  paddingInline: 10,
+  display: 'inline-flex',
+  alignItems: 'center',
+  borderRadius: 6,
+  border: `1px solid ${vars.color.lineStrong}`,
+  fontSize: 12,
+  fontWeight: 600,
+  color: vars.color.muted,
 });

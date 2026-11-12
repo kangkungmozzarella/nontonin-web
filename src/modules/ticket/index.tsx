@@ -1,5 +1,5 @@
 import { Button, Group, Stack, Text, Title } from '@mantine/core';
-import { CheckCircle, Cube, Printer, Ticket } from '@phosphor-icons/react';
+import { Armchair, CheckCircle, Printer, Ticket } from '@phosphor-icons/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -18,13 +18,7 @@ import * as styles from './styles.css';
 function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <Text
-        size="xs"
-        c="dimmed"
-        tt="uppercase"
-        fw={600}
-        style={{ letterSpacing: 1 }}
-      >
+      <Text size="xs" c="dimmed" fw={600}>
         {label}
       </Text>
       <Text fw={700} mt={2}>
@@ -49,7 +43,7 @@ export default function TicketScreen() {
           loading={!ready}
           minHeight={480}
           empty={{
-            icon: <Ticket size={44} color={colors.dim} />,
+            icon: <Ticket size={44} color={colors.muted} />,
             title: t('layout:notFound.title'),
           }}
         />
@@ -61,7 +55,7 @@ export default function TicketScreen() {
       <Container className={styles.page}>
         {query.new === '1' && (
           <div className={styles.success} role="status">
-            <CheckCircle size={28} weight="fill" color={colors.sel} />
+            <CheckCircle size={28} weight="fill" color={colors.text} />
             <div>
               <Text fw={700}>{t('layout:ticket.successTitle')}</Text>
               <Text size="sm" c="dimmed">
@@ -92,8 +86,9 @@ export default function TicketScreen() {
                   width={96}
                   height={144}
                   style={{
-                    borderRadius: 12,
+                    borderRadius: 8,
                     objectFit: 'cover',
+                    flexShrink: 0,
                     border: `1px solid ${colors.lineStrong}`,
                   }}
                 />
@@ -136,16 +131,10 @@ export default function TicketScreen() {
               <QRCodeSVG value={`NONTONIN:${b.code}`} size={180} />
             </div>
             <div>
-              <Text
-                size="xs"
-                c="dimmed"
-                tt="uppercase"
-                fw={600}
-                style={{ letterSpacing: 1 }}
-              >
+              <Text size="xs" c="dimmed" fw={600}>
                 {t('tickets.code')}
               </Text>
-              <Text fw={800} fz={22} style={{ letterSpacing: 2 }}>
+              <Text fw={800} fz={22} style={{ letterSpacing: 1 }}>
                 {b.code}
               </Text>
             </div>
@@ -162,7 +151,7 @@ export default function TicketScreen() {
               paths: { showtimeId: b.showtimeId },
               query: { view: '1' },
             })}
-            leftSection={<Cube size={18} />}
+            leftSection={<Armchair size={18} />}
             size="md"
           >
             {t('tickets.previewSeat')}

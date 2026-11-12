@@ -1,89 +1,117 @@
+import breakpoints from 'common/styles/breakpoint';
 import { style, vars } from 'styles/styles.css';
 
+// Key art fades in behind the top of the page, as in the reference layout
 export const backdrop = style({
-  position: 'relative',
-  height: 440,
+  position: 'absolute',
+  insetInline: 0,
+  height: 520,
   overflow: 'hidden',
-  background: vars.color.bgDeep,
+  pointerEvents: 'none',
 });
 
 export const backdropImage = style({
   objectFit: 'cover',
   objectPosition: 'center 20%',
+  opacity: 0.35,
 });
 
 export const backdropShade = style({
   position: 'absolute',
   inset: 0,
-  background: `linear-gradient(0deg, ${vars.color.bg} 0%, rgba(11,10,14,0.55) 45%, rgba(11,10,14,0.25) 100%)`,
+  background: `linear-gradient(0deg, ${vars.color.bg} 0%, rgba(11,10,14,0.6) 50%, rgba(11,10,14,0.4) 100%), linear-gradient(90deg, ${vars.color.bg} 0%, rgba(11,10,14,0) 60%)`,
 });
 
+export const page = style({ position: 'relative', paddingTop: 40 });
+
 export const top = style({
-  position: 'relative',
-  marginTop: -260,
   display: 'grid',
-  gridTemplateColumns: '260px 1fr',
-  gap: 40,
-  alignItems: 'end',
+  gridTemplateColumns: '260px minmax(0, 1fr)',
+  gap: 48,
+  alignItems: 'start',
+  '@media': {
+    [breakpoints.screenMaxMd]: {
+      gridTemplateColumns: '120px minmax(0, 1fr)',
+      gap: 20,
+    },
+  },
 });
 
 export const poster = style({
   position: 'relative',
   aspectRatio: '2 / 3',
-  borderRadius: 18,
+  borderRadius: vars.radius.md,
   overflow: 'hidden',
-  border: `1px solid ${vars.color.lineStrong}`,
-  boxShadow: '0 30px 60px rgba(0,0,0,0.6)',
+  outline: `1px solid ${vars.color.lineStrong}`,
+  outlineOffset: -1,
   background: vars.color.panel2,
 });
 
-export const ratingPill = style({
-  paddingInline: 8,
-  height: 26,
-  display: 'inline-grid',
-  placeItems: 'center',
-  borderRadius: 6,
+export const info = style({ minWidth: 0 });
+
+export const title = style({
+  fontSize: 'clamp(30px, 4.4vw, 52px)',
+  lineHeight: 1.02,
+  letterSpacing: '-0.03em',
+});
+
+export const chip = style({
+  height: 30,
+  paddingInline: 12,
+  display: 'inline-flex',
+  alignItems: 'center',
+  borderRadius: vars.radius.sm,
   border: `1px solid ${vars.color.lineStrong}`,
   fontSize: 13,
-  fontWeight: 700,
-});
-
-export const body = style({
-  marginTop: 48,
-  display: 'grid',
-  gridTemplateColumns: '1fr 2fr',
-  gap: 48,
-  alignItems: 'start',
-});
-
-export const info = style({
-  position: 'sticky',
-  top: 96,
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 20,
+  fontWeight: 600,
 });
 
 export const credits = style({
   display: 'grid',
-  gridTemplateColumns: '96px 1fr',
-  rowGap: 10,
+  gridTemplateColumns: '88px 1fr',
+  rowGap: 8,
   columnGap: 16,
-  fontSize: 14,
+  maxWidth: 640,
 });
 
 export const schedule = style({
-  padding: 28,
-  borderRadius: 22,
-  border: `1px solid ${vars.color.line}`,
-  background: vars.color.panel,
+  marginTop: 64,
+  scrollMarginTop: 96,
 });
+
+export const scheduleHead = style({
+  display: 'flex',
+  alignItems: 'baseline',
+  justifyContent: 'space-between',
+  flexWrap: 'wrap',
+  gap: 12,
+  marginBottom: 20,
+});
+
+export const cinemas = style({ marginTop: 24 });
 
 export const cinemaRow = style({
   display: 'grid',
-  gridTemplateColumns: '220px 1fr',
+  gridTemplateColumns: '260px minmax(0, 1fr)',
   gap: 24,
-  paddingBlock: 22,
-  borderTop: `1px solid ${vars.color.line}`,
-  selectors: { '&:first-child': { borderTop: 'none' } },
+  padding: 20,
+  marginBottom: 12,
+  borderRadius: vars.radius.md,
+  background: vars.color.panel,
+  border: `1px solid ${vars.color.line}`,
+  '@media': {
+    [breakpoints.screenMaxMd]: {
+      gridTemplateColumns: 'minmax(0, 1fr)',
+      gap: 14,
+      padding: 16,
+    },
+  },
+});
+
+export const cinemaName = style({
+  fontWeight: 700,
+  fontSize: 16,
+  selectors: {
+    '&:hover': { textDecoration: 'underline', textUnderlineOffset: 3 },
+  },
 });

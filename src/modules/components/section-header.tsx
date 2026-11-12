@@ -1,5 +1,4 @@
 import { Text, Title } from '@mantine/core';
-import { ArrowRight } from '@phosphor-icons/react';
 import Link from 'next/link';
 import React from 'react';
 import * as styles from './styles.css';
@@ -20,7 +19,7 @@ export default function SectionHeader({
   return (
     <div className={styles.sectionHeader}>
       <div>
-        <Title order={2} fz={28} style={{ letterSpacing: -0.4 }}>
+        <Title order={2} fz={26} style={{ letterSpacing: -0.5 }}>
           {title}
         </Title>
         {subtitle && (
@@ -31,15 +30,8 @@ export default function SectionHeader({
       </div>
       {right}
       {action && (
-        <Link href={action.href}>
-          <Text
-            c="mint"
-            fw={600}
-            size="sm"
-            style={{ display: 'flex', alignItems: 'center', gap: 6 }}
-          >
-            {action.label} <ArrowRight size={14} />
-          </Text>
+        <Link href={action.href} className={styles.sectionLink}>
+          {action.label}
         </Link>
       )}
     </div>

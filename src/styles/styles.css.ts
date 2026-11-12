@@ -21,6 +21,6 @@ export const vars = createGlobalTheme(':root', {
   space: px(space),
   radius: px(radius),
   font: {
-    body: 'var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    body: 'var(--font-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   },
 });

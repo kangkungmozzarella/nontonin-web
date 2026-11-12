@@ -1,5 +1,9 @@
 {
   "nav": {
+    "home": "Beranda",
+    "label": "Navigasi utama",
+    "upcoming_one": "{{count}} tiket akan datang",
+    "upcoming_other": "{{count}} tiket akan datang",
     "films": "Film",
     "cinemas": "Bioskop",
     "tickets": "Tiket saya",
@@ -7,7 +11,9 @@
   },
   "header": {
     "city": "Kota",
-    "language": "Bahasa"
+    "language": "Bahasa",
+    "search": "Cari film",
+    "searchPlaceholder": "Cari judul film"
   },
   "hero": {
     "buy": "Beli tiket",
@@ -18,18 +24,14 @@
   "home": {
     "nowSub": "Film yang tayang di {{city}} minggu ini",
     "soonSub": "Tandai tanggalnya, pre-sale dibuka menjelang rilis",
-    "featureEyebrow": "Pratinjau kursi 3D",
     "featureTitle": "Lihat layarnya dulu, baru pilih kursi",
-    "featureDesc": "Arahkan kursor ke kursi mana pun di denah dan kamera langsung terbang ke posisi itu. Kamu bisa melihat seberapa besar layar, sudut pandang, dan siapa yang duduk di depanmu sebelum membayar.",
-    "featureCta": "Coba sekarang",
-    "steps": {
-      "film": "Pilih film dan jadwal",
-      "seat": "Arahkan kursor ke kursi untuk melihat pandangannya",
-      "pay": "Bayar dan tunjukkan QR di pintu studio"
-    },
+    "featureDesc": "Arahkan kursor ke kursi mana pun di denah, kamera langsung pindah ke sana. Kamu bisa lihat seberapa besar layarnya dan kepala siapa yang ada di depanmu sebelum bayar.",
+    "featureCta": "Buka denah kursi jam {{time}}",
     "cinemasTitle": "Bioskop di {{city}}",
     "cinemasSub": "{{count}} lokasi Nontonin",
-    "seeAllCinemas": "Semua bioskop"
+    "seeAllCinemas": "Semua bioskop",
+    "featureWhere": "{{film}} di {{cinema}}, {{day}}",
+    "featureFallback": "Lihat jadwal"
   },
   "films": {
     "title": "Film",
@@ -37,7 +39,10 @@
     "soon": "Segera tayang",
     "count_one": "{{count}} film",
     "count_other": "{{count}} film",
-    "empty": "Belum ada film di sini."
+    "empty": "Belum ada film di sini.",
+    "noMatch": "Tidak ada film yang cocok dengan \"{{q}}\".",
+    "resultsFor": "Hasil untuk \"{{q}}\"",
+    "clear": "Hapus pencarian"
   },
   "film": {
     "trailerNote": "Durasi {{duration}}",
@@ -82,7 +87,8 @@
     "showtimePast": "Jadwal ini sudah lewat. Pilih jadwal lain.",
     "viewMine": "Pandangan dari kursimu",
     "viewMineDesc": "Ini pratinjau 3D dari kursi yang sudah kamu beli.",
-    "backToTicket": "Kembali ke tiket"
+    "backToTicket": "Kembali ke tiket",
+    "previewOf": "Pandangan dari kursi {{seat}}"
   },
   "checkout": {
     "title": "Pembayaran",
@@ -99,8 +105,6 @@
     "cinema": "Bioskop"
   },
   "footer": {
-    "tagline": "Pesan tiket bioskop dan lihat layarnya dari kursimu sebelum membeli.",
-    "explore": "Jelajahi",
     "credit": "Konsep UI/UX terinspirasi dari \"{{concept}}\" karya {{designer}}.",
     "demo": "Bioskop, jadwal, dan pembayaran di situs ini fiktif untuk keperluan demo.",
     "rights": "© {{year}} Nontonin"

@@ -1,6 +1,6 @@
 import { Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { analyze, TAG_COLOR } from 'common/theater/analyze';
+import { analyze } from 'common/theater/analyze';
 import { ROWS, SeatCell } from 'common/theater/layout';
 import { formatIDR } from 'common/helpers/format';
 import * as styles from '../styles.css';
@@ -18,20 +18,12 @@ export default function SeatInsight({
   return (
     <div className={styles.insight}>
       <div style={{ minWidth: 0 }}>
-        <Text size="xs" fw={700} c="dimmed" truncate>
-          <Text
-            span
-            inherit
-            tt="uppercase"
-            c={TAG_COLOR[a.tag]}
-            style={{ letterSpacing: 1.2 }}
-          >
-            {t(`seat.tag.${a.tag}`)}
-          </Text>
-          {` · ${t(`seat.kind.${seat.kind}`)} · ${formatIDR(price)}`}
+        <Text fz={17} fw={800} lh={1.25} truncate>
+          {t('seat.name', { row: ROWS[seat.row], num: seat.num })},{' '}
+          {t(`seat.tag.${a.tag}`).toLocaleLowerCase()}
         </Text>
-        <Text fz={19} fw={700} lh={1.25} truncate>
-          {t('seat.name', { row: ROWS[seat.row], num: seat.num })}
+        <Text size="sm" c="dimmed" truncate>
+          {t(`seat.kind.${seat.kind}`)}, {formatIDR(price)}
         </Text>
       </div>
       <div className={styles.stats}>

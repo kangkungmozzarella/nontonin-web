@@ -1,4 +1,12 @@
-import { Button, Group, Skeleton, Stack, Text, Title } from '@mantine/core';
+import {
+  ActionIcon,
+  Button,
+  Group,
+  Skeleton,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import {
   ArrowLeft,
@@ -44,12 +52,10 @@ const METHODS: { id: PaymentMethod; icon: Icon }[] = [
 function Line({
   label,
   value,
-  accent,
   bold,
 }: {
   label: string;
   value: string;
-  accent?: boolean;
   bold?: boolean;
 }) {
   return (
@@ -60,7 +66,7 @@ function Line({
       <Text
         fw={bold ? 800 : 500}
         fz={bold ? 22 : undefined}
-        c={accent ? 'mint' : undefined}
+        style={{ fontVariantNumeric: 'tabular-nums' }}
       >
         {value}
       </Text>
@@ -98,7 +104,7 @@ export default function CheckoutScreen() {
               minHeight={480}
             />
           ) : (
-            <Skeleton h={420} mt={40} radius={22} />
+            <Skeleton h={420} mt={40} radius="md" />
           )}
         </Container>
       </AppLayout>
@@ -152,16 +158,18 @@ export default function CheckoutScreen() {
   return (
     <AppLayout title={t('checkout.title')}>
       <Container>
-        <Group mt={32} gap={14}>
-          <Button
+        <Group mt={32} gap={14} wrap="nowrap">
+          <ActionIcon
             component={Link}
             href={seatUrl}
             variant="default"
-            leftSection={<ArrowLeft size={16} />}
+            size={40}
+            radius="sm"
+            aria-label={t('checkout.backToSeats')}
           >
-            {t('checkout.backToSeats')}
-          </Button>
-          <Title order={1} fz={32}>
+            <ArrowLeft size={18} />
+          </ActionIcon>
+          <Title order={1} fz={32} style={{ letterSpacing: -0.6 }}>
             {t('checkout.title')}
           </Title>
         </Group>
@@ -183,12 +191,16 @@ export default function CheckoutScreen() {
                     data-active={active}
                     onClick={() => setMethod(id)}
                   >
-                    <I size={24} color={active ? colors.sel : colors.muted} />
+                    <I size={24} color={active ? colors.text : colors.muted} />
                     <Text fw={600} style={{ flex: 1 }}>
                       {t(`booking:checkout.method.${id}`)}
                     </Text>
                     {active && (
-                      <CheckCircle size={20} weight="fill" color={colors.sel} />
+                      <CheckCircle
+                        size={20}
+                        weight="fill"
+                        color={colors.text}
+                      />
                     )}
                   </button>
                 );
@@ -209,19 +221,19 @@ export default function CheckoutScreen() {
                 alt=""
                 width={84}
                 height={126}
-                style={{ borderRadius: 10, objectFit: 'cover' }}
+                style={{ borderRadius: 8, objectFit: 'cover', flexShrink: 0 }}
               />
               <Stack gap={4}>
                 <Text fw={700} fz={18}>
                   {film.data.title}
                 </Text>
                 <Text size="sm" c="dimmed">
-                  {cinema.data.name} · {t('common:studio', { n: st.studio })}
+                  {cinema.data.name}, {t('common:studio', { n: st.studio })}
                 </Text>
                 <Text size="sm">
-                  {formatDate(st.date, 'EEEE, d MMMM yyyy', lang)} · {st.time}
+                  {formatDate(st.date, 'EEEE, d MMMM yyyy', lang)}, {st.time}
                 </Text>
-                <Text size="sm" fw={600} c="mint">
+                <Text size="sm" fw={700}>
                   {t('booking:checkout.seats')}: {seats.join(', ')}
                 </Text>
               </Stack>
@@ -237,7 +249,6 @@ export default function CheckoutScreen() {
                     pct: seatMap.data.discountPercent,
                   })}
                   value={`−${formatIDR(totals.discount)}`}
-                  accent
                 />
               )}
               <Line

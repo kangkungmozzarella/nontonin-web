@@ -1,4 +1,4 @@
-import { HEADER_HEIGHT } from 'common/styles/size';
+import { GUTTER, HEADER_HEIGHT } from 'common/styles/size';
 import breakpoints from 'common/styles/breakpoint';
 import { style, vars } from 'styles/styles.css';
 
@@ -7,57 +7,54 @@ export const header = style({
   top: 0,
   zIndex: 100,
   height: HEADER_HEIGHT,
-  background: vars.color.glass,
-  backdropFilter: 'saturate(140%) blur(14px)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: 16,
+  paddingInline: GUTTER,
+  background: vars.color.bg,
   borderBottom: `1px solid ${vars.color.line}`,
+  '@media': {
+    [breakpoints.screenMaxMd]: { paddingInline: 16, gap: 10 },
+  },
 });
 
-export const inner = style({
-  height: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  gap: 40,
+export const compactBrand = style({
+  display: 'none',
+  '@media': { [breakpoints.shellCompact]: { display: 'flex' } },
 });
 
-export const brand = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 10,
-  fontWeight: 800,
-  fontSize: 20,
-  letterSpacing: 0.5,
-});
-
-export const nav = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 4,
-  height: '100%',
-  '@media': { [breakpoints.screenMaxMd]: { display: 'none' } },
-});
-
-export const navLink = style({
+export const search = style({
   position: 'relative',
-  height: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  paddingInline: 14,
-  fontSize: 15,
-  fontWeight: 500,
+  flex: '0 1 380px',
+  minWidth: 0,
+});
+
+export const searchIcon = style({
+  position: 'absolute',
+  left: 14,
+  top: '50%',
+  transform: 'translateY(-50%)',
   color: vars.color.muted,
-  transition: 'color 150ms ease',
+  pointerEvents: 'none',
+});
+
+export const searchInput = style({
+  width: '100%',
+  height: 42,
+  paddingLeft: 42,
+  paddingRight: 14,
+  borderRadius: vars.radius.sm,
+  border: `1px solid ${vars.color.line}`,
+  background: vars.color.panel,
+  color: vars.color.text,
+  fontFamily: 'inherit',
+  fontSize: 14,
   selectors: {
-    '&:hover': { color: vars.color.text },
-    '&[data-active="true"]': { color: vars.color.text },
-    '&[data-active="true"]::after': {
-      content: '""',
-      position: 'absolute',
-      left: 14,
-      right: 14,
-      bottom: -1,
-      height: 2,
-      borderRadius: 2,
-      background: vars.color.sel,
+    '&::placeholder': { color: vars.color.dim },
+    '&:hover': { borderColor: vars.color.lineStrong },
+    '&:focus-visible': {
+      outline: `2px solid ${vars.color.text}`,
+      outlineOffset: 2,
     },
   },
 });
@@ -67,50 +64,27 @@ export const actions = style({
   display: 'flex',
   alignItems: 'center',
   gap: 12,
+  flexShrink: 0,
+  '@media': { [breakpoints.screenMaxMd]: { gap: 8 } },
 });
 
 export const cityButton = style({
   display: 'flex',
   alignItems: 'center',
   gap: 8,
-  height: 40,
+  height: 42,
   paddingInline: 14,
-  borderRadius: 999,
+  borderRadius: vars.radius.sm,
   border: `1px solid ${vars.color.line}`,
   background: vars.color.panel,
   color: vars.color.text,
+  fontFamily: 'inherit',
   fontSize: 14,
   fontWeight: 600,
   cursor: 'pointer',
   transition: 'border-color 150ms ease',
   selectors: { '&:hover': { borderColor: vars.color.lineStrong } },
-});
-
-export const ticketLink = style({
-  position: 'relative',
-  width: 40,
-  height: 40,
-  borderRadius: 999,
-  display: 'grid',
-  placeItems: 'center',
-  border: `1px solid ${vars.color.line}`,
-  background: vars.color.panel,
-  transition: 'border-color 150ms ease',
-  selectors: { '&:hover': { borderColor: vars.color.lineStrong } },
-});
-
-export const badge = style({
-  position: 'absolute',
-  top: -4,
-  right: -4,
-  minWidth: 18,
-  height: 18,
-  paddingInline: 5,
-  borderRadius: 999,
-  background: vars.color.sel,
-  color: vars.color.selInk,
-  fontSize: 11,
-  fontWeight: 700,
-  display: 'grid',
-  placeItems: 'center',
+  '@media': {
+    [breakpoints.screenMaxSm]: { paddingInline: 10, gap: 6, fontSize: 13 },
+  },
 });

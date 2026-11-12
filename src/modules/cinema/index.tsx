@@ -1,4 +1,4 @@
-import { Badge, Button, Group, Text, Title } from '@mantine/core';
+import { Button, Group, Text, Title } from '@mantine/core';
 import { MapPin, NavigationArrow } from '@phosphor-icons/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -22,6 +22,7 @@ import { useGetCinemaSchedule } from 'api-hooks/showtimes';
 import DateStrip, { upcomingDays } from 'modules/components/date-strip';
 import ShowtimeChips from 'modules/components/showtime-chips';
 import { mapsUrl } from 'modules/cinemas';
+import * as cinemasStyles from 'modules/cinemas/styles.css';
 import * as styles from './styles.css';
 
 export default function CinemaScreen() {
@@ -52,26 +53,22 @@ export default function CinemaScreen() {
       <Container className={styles.page}>
         <div className={styles.header}>
           <div>
-            <Group gap={10}>
-              <Title order={1} fz={40} style={{ letterSpacing: -0.8 }}>
+            <Group gap={12}>
+              <Title order={1} fz={40} style={{ letterSpacing: -1 }}>
                 {c.name}
               </Title>
-              <Badge
-                variant="light"
-                color={c.tier === 'premiere' ? 'orange' : 'gray'}
-                size="lg"
-              >
+              <span className={cinemasStyles.tier}>
                 {t(`common:tier.${c.tier}`)}
-              </Badge>
+              </span>
             </Group>
             <Group gap={6} mt={8}>
               <MapPin size={16} color={colors.muted} />
               <Text c="dimmed">
                 {c.address}
                 {coords
-                  ? ` · ${t('cinemas.away', { distance: formatDistance(haversineKm(coords, c)) })}`
+                  ? `, ${t('cinemas.away', { distance: formatDistance(haversineKm(coords, c)) })}`
                   : ''}
-                {' · '}
+                {', '}
                 {t('cinemas.studios', { count: c.studios })}
               </Text>
             </Group>
@@ -110,7 +107,7 @@ export default function CinemaScreen() {
                   alt=""
                   width={84}
                   height={126}
-                  style={{ borderRadius: 10, objectFit: 'cover' }}
+                  className={styles.filmPoster}
                 />
                 <div>
                   <Link
@@ -131,7 +128,7 @@ export default function CinemaScreen() {
                       t('common:studio', { n: showtimes[0].studio }),
                     ]
                       .filter(Boolean)
-                      .join(' · ')}
+                      .join(', ')}
                   </Text>
                 </div>
                 <ShowtimeChips showtimes={showtimes} />

@@ -1,62 +1,51 @@
-import { Button, Group, Text, Title } from '@mantine/core';
-import { ArrowRight } from '@phosphor-icons/react';
+import { Button, Skeleton, Text, Title } from '@mantine/core';
+import { addDays, format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { formatDate } from 'common/helpers/format';
+import { buildUrl, NavigationRoutes } from 'common/routes';
 import { hashString, mulberry } from 'common/theater/layout';
+import { useCity } from 'hooks/use-city';
+import useLanguage from 'hooks/use-language';
 import type { FilmModel } from 'api-hooks/films/model';
+import { useGetFilmSchedule } from 'api-hooks/showtimes';
 import * as styles from '../styles.css';
 
 const ROWS = [10, 12, 12, 14, 14, 14];
+const day = (offset: number) =>
+  format(addDays(new Date(), offset), 'yyyy-MM-dd');
 
-// Decorative auditorium: a glowing screen and a seat grid with one seat picked
+// The next showtime of the film in the chosen city, today or tomorrow
+function useNextShowtime(filmId?: string) {
+  const { city } = useCity();
+  const today = useGetFilmSchedule({ filmId, cityId: city.id, date: day(0) });
+  const tomorrow = useGetFilmSchedule({
+    filmId,
+    cityId: city.id,
+    date: day(1),
+  });
+  return React.useMemo(() => {
+    for (const q of [today, tomorrow]) {
+      for (const entry of q.data ?? []) {
+        const s = entry.showtimes.find((x) => !x.isPast);
+        if (s) return { showtime: s, cinema: entry.cinema };
+      }
+    }
+    return null;
+  }, [today, tomorrow]);
+}
+
+// Seat preview pitch: a drawn auditorium and a button straight into a real seat map
 export default function SeatPreviewFeature({ film }: { film?: FilmModel }) {
   const { t } = useTranslation('layout');
+  const { lang } = useLanguage();
+  const next = useNextShowtime(film?.id);
   const rnd = mulberry(hashString('feature'));
-  const href = film ? `/films/${film.id}` : '/films';
 
   return (
     <section className={styles.feature}>
-      <div>
-        <Text
-          c="mint"
-          fw={700}
-          size="sm"
-          tt="uppercase"
-          style={{ letterSpacing: 1.5 }}
-        >
-          {t('home.featureEyebrow')}
-        </Text>
-        <Title
-          order={2}
-          fz={38}
-          lh={1.1}
-          mt={10}
-          style={{ letterSpacing: -0.8 }}
-        >
-          {t('home.featureTitle')}
-        </Title>
-        <Text c="dimmed" size="lg" mt={14}>
-          {t('home.featureDesc')}
-        </Text>
-        <div className={styles.steps}>
-          {(['film', 'seat', 'pay'] as const).map((k, i) => (
-            <Group key={k} gap={12} wrap="nowrap">
-              <span className={styles.stepNum}>{i + 1}</span>
-              <Text>{t(`home.steps.${k}`)}</Text>
-            </Group>
-          ))}
-        </div>
-        <Button
-          component={Link}
-          href={href}
-          mt={32}
-          size="md"
-          rightSection={<ArrowRight size={16} />}
-        >
-          {t('home.featureCta')}
-        </Button>
-      </div>
       <div className={styles.stage} aria-hidden>
         <div className={styles.stageScreen}>
           {film && (
@@ -64,7 +53,7 @@ export default function SeatPreviewFeature({ film }: { film?: FilmModel }) {
               src={film.backdrop}
               alt=""
               fill
-              sizes="560px"
+              sizes="640px"
               style={{ objectFit: 'cover' }}
             />
           )}
@@ -83,6 +72,48 @@ export default function SeatPreviewFeature({ film }: { film?: FilmModel }) {
             </div>
           ))}
         </div>
+      </div>
+      <div className={styles.featureText}>
+        <Title order={2} className={styles.featureTitle}>
+          {t('home.featureTitle')}
+        </Title>
+        <Text c="dimmed" mt={14}>
+          {t('home.featureDesc')}
+        </Text>
+        {!film ? (
+          <Skeleton height={44} width={240} radius="xl" mt={28} />
+        ) : next ? (
+          <>
+            <Text size="sm" mt={28} c="dimmed">
+              {t('home.featureWhere', {
+                film: film.title,
+                cinema: next.cinema.name,
+                day: formatDate(next.showtime.date, 'EEEE', lang),
+              })}
+            </Text>
+            <Button
+              component={Link}
+              href={buildUrl(NavigationRoutes.Seat, {
+                paths: { showtimeId: next.showtime.id },
+              })}
+              mt={12}
+              size="md"
+            >
+              {t('home.featureCta', { time: next.showtime.time })}
+            </Button>
+          </>
+        ) : (
+          <Button
+            component={Link}
+            href={buildUrl(NavigationRoutes.FilmDetail, {
+              paths: { id: film.id },
+            })}
+            mt={28}
+            size="md"
+          >
+            {t('home.featureFallback')}
+          </Button>
+        )}
       </div>
     </section>
   );

@@ -1,3 +1,5 @@
+import { SHELL_BREAKPOINT } from './size';
+
 // Same breakpoints as kurosim-webapp
 const sizes = {
   xxs: 360,
@@ -11,6 +13,7 @@ const sizes = {
 
 const breakpoints = {
   ...sizes,
+  shellCompact: `screen and (max-width: ${SHELL_BREAKPOINT - 1}px)`,
   screenSm: `screen and (min-width: ${sizes.sm}px)`,
   screenMd: `screen and (min-width: ${sizes.md}px)`,
   screenLg: `screen and (min-width: ${sizes.lg}px)`,

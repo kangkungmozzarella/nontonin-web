@@ -1,12 +1,14 @@
-import { Alert, Button, Group, Skeleton, Text, Title } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
 import {
-  ArrowLeft,
-  ArrowRight,
-  Cube,
-  HandGrabbing,
-  Ticket,
-} from '@phosphor-icons/react';
+  ActionIcon,
+  Alert,
+  Button,
+  Group,
+  Skeleton,
+  Text,
+  Title,
+} from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { ArrowLeft, HandGrabbing } from '@phosphor-icons/react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,8 +19,7 @@ import { MAX_SEATS_PER_ORDER } from 'common/constants/app';
 import { formatDate, formatIDR } from 'common/helpers/format';
 import { orderTotals, seatPrice } from 'common/helpers/pricing';
 import { buildUrl, NavigationRoutes, RouterQueryType } from 'common/routes';
-import colors from 'common/styles/colors';
-import { seatById, SeatCell } from 'common/theater/layout';
+import { ROWS, seatById, SeatCell } from 'common/theater/layout';
 import StateView from 'components/common/state-view';
 import AppLayout from 'components/widgets/layout/app-layout';
 import Container from 'components/widgets/layout/container';
@@ -150,35 +151,107 @@ export default function SeatScreen() {
   const totals = orderTotals(seats, seatMap.data);
   const filmTitle = film.data?.title ?? '';
 
+  const backHref = readOnly
+    ? NavigationRoutes.Tickets
+    : buildUrl(NavigationRoutes.FilmDetail, { paths: { id: st.filmId } });
+
   return (
     <AppLayout title={`${t('seat.title')} · ${filmTitle}`} footer={false}>
-      <div className={styles.topBar}>
-        <Container className={styles.topInner}>
-          <Button
-            variant="default"
-            radius="xl"
-            leftSection={<ArrowLeft size={16} />}
-            component={Link}
-            href={
-              readOnly
-                ? NavigationRoutes.Tickets
-                : buildUrl(NavigationRoutes.FilmDetail, {
-                    paths: { id: st.filmId },
-                  })
-            }
-          >
-            {readOnly ? t('seat.backToTicket') : t('seat.change')}
-          </Button>
-          <div>
-            <Title order={1} fz={22} lh={1.2}>
-              {readOnly ? t('seat.viewMine') : filmTitle}
-            </Title>
-            <Text size="sm" c="dimmed">
-              {readOnly ? `${filmTitle} · ` : ''}
-              {cinema.data?.name} · {formatDate(st.date, 'EEEE, d MMMM', lang)}{' '}
-              · {st.time} · {t('common:studio', { n: st.studio })}
-            </Text>
+      <div className={styles.summaryBar}>
+        <Container className={styles.summaryInner}>
+          <div className={styles.summaryFilm}>
+            <ActionIcon
+              component={Link}
+              href={backHref}
+              variant="default"
+              size={40}
+              radius="sm"
+              aria-label={readOnly ? t('seat.backToTicket') : t('seat.change')}
+            >
+              <ArrowLeft size={18} />
+            </ActionIcon>
+            {film.data && (
+              <Image
+                src={film.data.poster}
+                alt=""
+                width={40}
+                height={60}
+                className={styles.summaryPoster}
+              />
+            )}
+            <div style={{ minWidth: 0 }}>
+              <Title order={1} fz={18} lh={1.25} lineClamp={1}>
+                {readOnly ? t('seat.viewMine') : filmTitle}
+              </Title>
+              <Text size="sm" c="dimmed" lineClamp={1}>
+                {readOnly ? `${filmTitle}, ` : ''}
+                {cinema.data?.name}, {formatDate(st.date, 'EEE d MMM', lang)},{' '}
+                {st.time}, {t('common:studio', { n: st.studio })}
+              </Text>
+            </div>
           </div>
+
+          {readOnly ? (
+            <div className={styles.summaryField}>
+              <Text size="xs" c="dimmed" fw={600}>
+                {t('ticket.seats')}
+              </Text>
+              <Group gap={6} mt={4}>
+                {[...owned].sort().map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    className={styles.seatTag}
+                    data-active={preview?.id === s}
+                    onClick={() => flyTo(seatById(s) ?? null)}
+                    aria-label={t('booking:seat.name', {
+                      row: s[0],
+                      num: s.slice(1),
+                    })}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </Group>
+            </div>
+          ) : (
+            <>
+              <div className={styles.summaryField}>
+                <Text size="xs" c="dimmed" fw={600}>
+                  {t('seat.selected')}
+                </Text>
+                <Text fw={700} mt={2} className={styles.summaryValue}>
+                  {seats.length ? seats.join(', ') : t('seat.none')}
+                </Text>
+              </div>
+              <div className={styles.summaryField}>
+                <Text size="xs" c="dimmed" fw={600}>
+                  {t('booking:checkout.total')}
+                  {totals.discount > 0
+                    ? ` (−${seatMap.data.discountPercent}%)`
+                    : ''}
+                </Text>
+                <Text fw={800} fz={18} mt={2} className={styles.summaryValue}>
+                  {formatIDR(
+                    seats.length ? totals.subtotal - totals.discount : 0,
+                  )}
+                </Text>
+              </div>
+              <Button
+                size="md"
+                className={styles.summaryButton}
+                disabled={!seats.length || st.isPast}
+                onClick={() =>
+                  navigation.push(NavigationRoutes.Checkout, {
+                    paths: { showtimeId: st.id },
+                    query: { seats: seats.join(',') },
+                  })
+                }
+              >
+                {t('seat.continue')}
+              </Button>
+            </>
+          )}
         </Container>
       </div>
 
@@ -223,11 +296,14 @@ export default function SeatScreen() {
             />
             <div className={styles.overlayTop}>
               <span className={styles.chip}>
-                <Cube size={15} color={colors.sel} />
-                {preview ? t('seat.previewTitle') : t('seat.overview')}
+                {preview
+                  ? t('seat.previewOf', {
+                      seat: `${ROWS[preview.row]}${preview.num}`,
+                    })
+                  : t('seat.overview')}
               </span>
-              <span className={styles.chip}>
-                <HandGrabbing size={15} />
+              <span className={`${styles.chip} ${styles.dragChip}`}>
+                <HandGrabbing size={15} aria-hidden />
                 {t('seat.dragHint')}
               </span>
             </div>
@@ -244,96 +320,6 @@ export default function SeatScreen() {
           </section>
         </div>
       </Container>
-
-      {!readOnly && (
-        <div className={styles.orderBar}>
-          <Container className={styles.orderInner}>
-            {film.data && (
-              <Image
-                src={film.data.poster}
-                alt=""
-                width={40}
-                height={60}
-                style={{ borderRadius: 6, objectFit: 'cover' }}
-              />
-            )}
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <Text
-                size="xs"
-                c="dimmed"
-                fw={600}
-                tt="uppercase"
-                style={{ letterSpacing: 1 }}
-              >
-                {t('seat.selected')}
-              </Text>
-              {seats.length ? (
-                <Group gap={6} mt={4}>
-                  {seats.map((s) => (
-                    <span key={s} className={styles.seatPill}>
-                      {s}
-                    </span>
-                  ))}
-                </Group>
-              ) : (
-                <Text c="dimmed" mt={2}>
-                  {t('seat.none')}
-                </Text>
-              )}
-            </div>
-            {seats.length > 0 && (
-              <div style={{ textAlign: 'right' }}>
-                <Text size="xs" c="dimmed">
-                  {t('booking:seat.seatsCount', { count: seats.length })}
-                  {totals.discount > 0
-                    ? ` · −${seatMap.data.discountPercent}%`
-                    : ''}
-                </Text>
-                <Text fz={22} fw={800}>
-                  {formatIDR(totals.subtotal - totals.discount)}
-                </Text>
-              </div>
-            )}
-            <Button
-              size="lg"
-              rightSection={<ArrowRight size={18} />}
-              disabled={!seats.length || st.isPast}
-              onClick={() =>
-                navigation.push(NavigationRoutes.Checkout, {
-                  paths: { showtimeId: st.id },
-                  query: { seats: seats.join(',') },
-                })
-              }
-            >
-              {t('seat.continue')}
-            </Button>
-          </Container>
-        </div>
-      )}
-      {readOnly && (
-        <div className={styles.orderBar}>
-          <Container className={styles.orderInner}>
-            <Ticket size={22} color={colors.sel} />
-            <Group gap={6} style={{ flex: 1 }}>
-              {[...owned].sort().map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  className={styles.seatPill}
-                  style={{ border: 'none', cursor: 'pointer' }}
-                  onClick={() => flyTo(seatById(s) ?? null)}
-                  aria-label={t('booking:seat.name', {
-                    row: s[0],
-                    num: s.slice(1),
-                  })}
-                >
-                  {s}
-                </button>
-              ))}
-            </Group>
-          </Container>
-        </div>
-      )}
     </AppLayout>
   );
 }

@@ -1,6 +1,6 @@
 import { style, vars } from 'styles/styles.css';
 
-export const page = style({ paddingTop: 48 });
+export const page = style({ paddingTop: 40 });
 
 export const head = style({
   display: 'flex',
@@ -8,11 +8,12 @@ export const head = style({
   justifyContent: 'space-between',
   gap: 24,
   marginBottom: 28,
+  flexWrap: 'wrap',
 });
 
 export const grid = style({
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(min(360px, 100%), 1fr))',
   gap: 16,
 });
 
@@ -20,15 +21,12 @@ export const card = style({
   display: 'flex',
   gap: 16,
   padding: 16,
-  borderRadius: 18,
+  borderRadius: vars.radius.md,
   border: `1px solid ${vars.color.line}`,
   background: vars.color.panel,
-  transition: 'border-color 150ms ease, transform 150ms ease',
+  transition: 'border-color 150ms ease',
   selectors: {
-    '&:hover': {
-      borderColor: vars.color.lineStrong,
-      transform: 'translateY(-2px)',
-    },
+    '&:hover': { borderColor: vars.color.muted },
     '&[data-past="true"]': { opacity: 0.6 },
   },
 });

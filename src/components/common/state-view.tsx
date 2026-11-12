@@ -29,7 +29,7 @@ export default function StateView({
   if (loading)
     return (
       <Center mih={minHeight}>
-        <Loader color="mint" type="dots" />
+        <Loader color="gray" type="dots" />
       </Center>
     );
   if (error)

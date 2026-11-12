@@ -37,11 +37,10 @@ export default function FilmPosterCard({
           <span className={styles.ratingBadge}>{film.rating}</span>
         )}
         <div className={styles.posterOverlay}>
-          <Text size="sm" fw={600} c="mint">
+          <Text size="sm" fw={700}>
             {film.status === 'now'
               ? t('layout:hero.buy')
-              : t('layout:hero.detail')}{' '}
-            →
+              : t('layout:hero.detail')}
           </Text>
         </div>
       </div>
@@ -50,7 +49,7 @@ export default function FilmPosterCard({
           {film.title}
         </Text>
         {film.status === 'soon' && film.releaseDate ? (
-          <Text size="sm" c="mint">
+          <Text size="sm" c="dimmed">
             {t('home:releaseOn', {
               date: formatDate(film.releaseDate, 'd MMM yyyy', lang),
             })}
@@ -59,7 +58,7 @@ export default function FilmPosterCard({
           <Group gap={6} wrap="nowrap">
             {film.score != null && (
               <Group gap={4} wrap="nowrap">
-                <Star size={13} weight="fill" color={colors.warm} />
+                <Star size={13} weight="fill" color={colors.star} />
                 <Text size="sm" fw={500}>
                   {film.score.toFixed(1)}
                 </Text>

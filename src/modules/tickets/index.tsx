@@ -46,7 +46,6 @@ export default function TicketsScreen() {
           </Title>
           <SegmentedControl
             size="md"
-            radius="xl"
             value={tab}
             onChange={(v) => setTab(v as typeof tab)}
             data={[
@@ -61,7 +60,7 @@ export default function TicketsScreen() {
           <StateView
             minHeight={360}
             empty={{
-              icon: <Ticket size={44} color={colors.dim} />,
+              icon: <Ticket size={44} color={colors.muted} />,
               title: t('tickets.empty'),
               desc: t('tickets.emptyDesc'),
               action:
@@ -88,24 +87,24 @@ export default function TicketsScreen() {
                   alt=""
                   width={72}
                   height={108}
-                  style={{ borderRadius: 10, objectFit: 'cover' }}
+                  style={{ borderRadius: 8, objectFit: 'cover', flexShrink: 0 }}
                 />
                 <Stack gap={4} style={{ minWidth: 0 }}>
                   <Text fw={700} fz={17} lineClamp={1}>
                     {b.filmTitle}
                   </Text>
                   <Text size="sm" c="dimmed" lineClamp={1}>
-                    {b.cinemaName} · {t('common:studio', { n: b.studio })}
+                    {b.cinemaName}, {t('common:studio', { n: b.studio })}
                   </Text>
                   <Text size="sm">
-                    {formatDate(b.date, 'EEE, d MMM yyyy', lang)} · {b.time}
+                    {formatDate(b.date, 'EEE, d MMM yyyy', lang)}, {b.time}
                   </Text>
                   <Group gap={6}>
-                    <Text size="sm" fw={700} c="mint">
+                    <Text size="sm" fw={700}>
                       {b.seats.join(', ')}
                     </Text>
                     <Text size="xs" c="dimmed">
-                      · {b.code}
+                      {b.code}
                     </Text>
                   </Group>
                 </Stack>
