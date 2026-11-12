@@ -38,6 +38,7 @@ Film sedang tayang dan segera tayang diambil dari [TMDB](https://www.themoviedb.
 | `/seat/[showtimeId]` | Denah kursi di kiri, pratinjau 3D di kanan. `?view=1` menampilkan pandangan dari kursi yang sudah dibeli |
 | `/checkout/[showtimeId]` | Metode pembayaran dan ringkasan pesanan |
 | `/tickets`, `/tickets/[id]` | Daftar tiket dan tiket dengan QR (bisa dicetak) |
+| `/profile` | Profil tamu: ringkasan tiket, kota, bahasa, metode pembayaran favorit, hapus data demo |
 | `/about` | Kredit desain dan atribusi TMDB |
 
 ## Struktur

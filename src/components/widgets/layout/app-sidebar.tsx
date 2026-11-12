@@ -73,7 +73,7 @@ export function AppBottomNav() {
 
   return (
     <nav className={styles.bottomNav} aria-label={t('nav.label')}>
-      {NAV_ITEMS.map((item) => {
+      {NAV_ITEMS.filter((item) => item.bottom).map((item) => {
         const active = isActive(item, pathname);
         const Icon = item.icon;
         return (

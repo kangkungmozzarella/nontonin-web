@@ -4,6 +4,7 @@ export enum BrowserStorageKeys {
   City = 'nontonin.city',
   Bookings = 'nontonin.bookings',
   LocationAsked = 'nontonin.location-asked',
+  PaymentMethod = 'nontonin.payment-method',
 }
 
 export const browserStorage = {
@@ -34,5 +35,15 @@ export const browserStorage = {
   },
   setJson(key: BrowserStorageKeys, value: unknown) {
     browserStorage.set(key, JSON.stringify(value));
+  },
+  // Removes everything Nontonin saved in this browser
+  clearAll() {
+    Object.values(BrowserStorageKeys).forEach((key) => {
+      try {
+        window.localStorage.removeItem(key);
+      } catch {
+        // storage unavailable: nothing was saved
+      }
+    });
   },
 };

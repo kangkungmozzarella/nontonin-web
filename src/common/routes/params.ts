@@ -29,6 +29,7 @@ export interface RouteParams {
     paths: { id: string };
     query?: { new?: string };
   };
+  [NavigationRoutes.Profile]: { paths?: never; query?: never };
   [NavigationRoutes.About]: { paths?: never; query?: never };
 }
 

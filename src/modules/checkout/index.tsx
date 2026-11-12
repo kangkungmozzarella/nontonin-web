@@ -8,16 +8,7 @@ import {
   Title,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import {
-  ArrowLeft,
-  Bank,
-  CheckCircle,
-  CreditCard,
-  Icon,
-  LockSimple,
-  QrCode,
-  Wallet,
-} from '@phosphor-icons/react';
+import { ArrowLeft, CheckCircle, LockSimple } from '@phosphor-icons/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -35,19 +26,15 @@ import Container from 'components/widgets/layout/container';
 import { useBookings } from 'hooks/use-bookings';
 import useLanguage from 'hooks/use-language';
 import useNontoninNavigation from 'hooks/use-nontonin-navigation';
+import usePaymentPreference, {
+  PAYMENT_METHODS,
+} from 'hooks/use-payment-preference';
 import { PaymentMethod, useCreateBooking } from 'api-hooks/bookings';
 import { useGetCinema } from 'api-hooks/cinemas';
 import { useGetFilm } from 'api-hooks/films';
 import { useGetSeatMap } from 'api-hooks/seats';
 import { useGetShowtime } from 'api-hooks/showtimes';
 import * as styles from './styles.css';
-
-const METHODS: { id: PaymentMethod; icon: Icon }[] = [
-  { id: 'ewallet', icon: Wallet },
-  { id: 'qris', icon: QrCode },
-  { id: 'va', icon: Bank },
-  { id: 'card', icon: CreditCard },
-];
 
 function Line({
   label,
@@ -83,7 +70,9 @@ export default function CheckoutScreen() {
     () => (query.seats ?? '').split(',').filter((s) => !!seatById(s)),
     [query.seats],
   );
-  const [method, setMethod] = React.useState<PaymentMethod>('ewallet');
+  const preferred = usePaymentPreference().method;
+  const [picked, setMethod] = React.useState<PaymentMethod | null>(null);
+  const method = picked ?? preferred; // start on the favourite set in Profile
 
   const showtime = useGetShowtime({ id: query.showtimeId });
   const film = useGetFilm({ id: showtime.data?.filmId });
@@ -179,7 +168,7 @@ export default function CheckoutScreen() {
               {t('booking:checkout.payment')}
             </Title>
             <div className={styles.methods} role="radiogroup">
-              {METHODS.map(({ id, icon: I }) => {
+              {PAYMENT_METHODS.map(({ id, icon: I }) => {
                 const active = id === method;
                 return (
                   <button

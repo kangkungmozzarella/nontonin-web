@@ -1,13 +1,14 @@
 {
   "nav": {
     "home": "Beranda",
-    "label": "Navigasi utama",
-    "upcoming_one": "{{count}} tiket akan datang",
-    "upcoming_other": "{{count}} tiket akan datang",
     "films": "Film",
     "cinemas": "Bioskop",
     "tickets": "Tiket saya",
-    "about": "Tentang"
+    "profile": "Profil",
+    "about": "Tentang",
+    "label": "Navigasi utama",
+    "upcoming_one": "{{count}} tiket akan datang",
+    "upcoming_other": "{{count}} tiket akan datang"
   },
   "header": {
     "city": "Kota",

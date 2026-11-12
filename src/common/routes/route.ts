@@ -8,5 +8,6 @@ export enum NavigationRoutes {
   Checkout = '/checkout/[showtimeId]',
   Tickets = '/tickets',
   TicketDetail = '/tickets/[id]',
+  Profile = '/profile',
   About = '/about',
 }

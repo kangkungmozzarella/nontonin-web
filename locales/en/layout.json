@@ -1,13 +1,14 @@
 {
   "nav": {
     "home": "Home",
-    "label": "Main navigation",
-    "upcoming_one": "{{count}} upcoming ticket",
-    "upcoming_other": "{{count}} upcoming tickets",
     "films": "Films",
     "cinemas": "Cinemas",
     "tickets": "My tickets",
-    "about": "About"
+    "profile": "Profile",
+    "about": "About",
+    "label": "Main navigation",
+    "upcoming_one": "{{count}} upcoming ticket",
+    "upcoming_other": "{{count}} upcoming tickets"
   },
   "header": {
     "city": "City",
