@@ -1,0 +1,113 @@
+{
+  "nav": {
+    "films": "Films",
+    "cinemas": "Cinemas",
+    "tickets": "My tickets",
+    "about": "About"
+  },
+  "header": {
+    "city": "City",
+    "language": "Language"
+  },
+  "hero": {
+    "buy": "Buy tickets",
+    "detail": "See details",
+    "nowPlaying": "Now showing",
+    "comingSoon": "Coming soon"
+  },
+  "home": {
+    "nowSub": "Films playing in {{city}} this week",
+    "soonSub": "Save the date, pre-sale opens close to release",
+    "featureEyebrow": "3D seat preview",
+    "featureTitle": "See the screen first, then pick your seat",
+    "featureDesc": "Hover over any seat on the map and the camera flies straight to it. See how big the screen is, the viewing angle, and who's sitting in front of you before you pay.",
+    "featureCta": "Try it now",
+    "steps": {
+      "film": "Pick a film and showtime",
+      "seat": "Hover over a seat to see its view",
+      "pay": "Pay and show the QR at the studio door"
+    },
+    "cinemasTitle": "Cinemas in {{city}}",
+    "cinemasSub": "{{count}} Nontonin locations",
+    "seeAllCinemas": "All cinemas"
+  },
+  "films": {
+    "title": "Films",
+    "now": "Now showing",
+    "soon": "Coming soon",
+    "count_one": "{{count}} film",
+    "count_other": "{{count}} films",
+    "empty": "No films here yet."
+  },
+  "film": {
+    "trailerNote": "Runtime {{duration}}",
+    "playingIn": "Playing in {{city}}",
+    "cinemaCount_one": "{{count}} cinema",
+    "cinemaCount_other": "{{count}} cinemas",
+    "noScheduleDay": "No showtimes on this date. Try another day.",
+    "pickTime": "Pick a time to choose your seats"
+  },
+  "cityPicker": {
+    "title": "Choose a city",
+    "desc": "Cinemas and showtimes follow the city you pick.",
+    "useLocation": "Use my location",
+    "locating": "Finding your location…",
+    "denied": "Location permission denied. Choose a city manually.",
+    "detected": "Location found: {{city}}",
+    "nearest": "Nearest"
+  },
+  "cinemas": {
+    "title": "Cinemas in {{city}}",
+    "subtitle_one": "{{count}} location",
+    "subtitle_other": "{{count}} locations",
+    "locationHint": "Turn on location to sort cinemas by distance",
+    "enable": "Turn on location",
+    "away": "{{distance}} away",
+    "schedule": "See showtimes",
+    "directions": "Directions",
+    "studios": "{{count}} studios"
+  },
+  "seat": {
+    "title": "Choose seats",
+    "hoverHint": "Hover over a seat to see its view. Click to select it.",
+    "previewTitle": "View from the seat",
+    "overview": "Studio overview",
+    "previewEmpty": "Hover over an open seat to see the screen from there.",
+    "dragHint": "Drag to look around",
+    "selected": "Selected seats",
+    "none": "No seats yet",
+    "continue": "Continue to payment",
+    "change": "Change showtime",
+    "maxReached": "Up to {{max}} seats per order",
+    "showtimePast": "This showtime has passed. Pick another one.",
+    "viewMine": "The view from your seat",
+    "viewMineDesc": "A 3D preview from the seats you already bought.",
+    "backToTicket": "Back to ticket"
+  },
+  "checkout": {
+    "title": "Payment",
+    "backToSeats": "Change seats",
+    "secure": "Demo payment, no money is charged."
+  },
+  "ticket": {
+    "successTitle": "Payment successful",
+    "successDesc": "Your ticket is saved in My tickets.",
+    "print": "Print ticket",
+    "allTickets": "All tickets",
+    "seats": "Seats",
+    "studio": "Studio",
+    "cinema": "Cinema"
+  },
+  "footer": {
+    "tagline": "Book cinema tickets and see the screen from your seat before you buy.",
+    "explore": "Explore",
+    "credit": "UI/UX concept inspired by \"{{concept}}\" by {{designer}}.",
+    "demo": "The cinemas, showtimes and payments on this site are fictional and made for the demo.",
+    "rights": "© {{year}} Nontonin"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "desc": "The link may be wrong or the page has moved.",
+    "home": "Go home"
+  }
+}
