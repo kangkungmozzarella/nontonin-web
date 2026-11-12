@@ -43,7 +43,6 @@ export default function AboutScreen() {
             </Title>
             <Text>
               {t('about.credit', {
-                concept: DESIGN_CREDIT.concept,
                 designer: DESIGN_CREDIT.designer,
               })}
             </Text>

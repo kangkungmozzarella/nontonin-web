@@ -106,7 +106,7 @@
     "cinema": "Bioskop"
   },
   "footer": {
-    "credit": "Konsep UI/UX terinspirasi dari \"{{concept}}\" karya {{designer}}.",
+    "credit": "Konsep UI/UX terinspirasi dari karya {{designer}}.",
     "demo": "Bioskop, jadwal, dan pembayaran di situs ini fiktif untuk keperluan demo.",
     "rights": "© {{year}} Nontonin"
   },

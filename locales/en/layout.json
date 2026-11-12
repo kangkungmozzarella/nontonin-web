@@ -106,7 +106,7 @@
     "cinema": "Cinema"
   },
   "footer": {
-    "credit": "UI/UX concept inspired by \"{{concept}}\" by {{designer}}.",
+    "credit": "UI/UX concept inspired by the work of {{designer}}.",
     "demo": "The cinemas, showtimes and payments on this site are fictional and made for the demo.",
     "rights": "© {{year}} Nontonin"
   },

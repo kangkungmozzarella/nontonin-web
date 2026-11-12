@@ -17,7 +17,6 @@ export default function AppFooter() {
           </Text>
           <Text size="sm" c="dimmed">
             {t('footer.credit', {
-              concept: DESIGN_CREDIT.concept,
               designer: DESIGN_CREDIT.designer,
             })}
           </Text>

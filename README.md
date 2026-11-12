@@ -64,4 +64,4 @@ src/
 
 ## Lisensi
 
-Kode memakai lisensi [MIT](LICENSE). Lisensi itu tidak mencakup data dan gambar film dari TMDB, yang tetap tunduk pada ketentuan TMDB. Konsep UI/UX terinspirasi dari "Meridian" karya Ramin Nasibov.
+Kode memakai lisensi [MIT](LICENSE). Lisensi itu tidak mencakup data dan gambar film dari TMDB, yang tetap tunduk pada ketentuan TMDB. Konsep UI/UX terinspirasi dari [karya Ramin Nasibov](https://www.instagram.com/reel/DfgHVQyD98i/).
