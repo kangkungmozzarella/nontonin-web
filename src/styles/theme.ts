@@ -18,6 +18,9 @@ const theme = createTheme({
   primaryColor: 'mint',
   primaryShade: 3,
   colors: { mint },
+  // Mint is light, so filled buttons need dark text (as in the mobile app), not white
+  autoContrast: true,
+  luminanceThreshold: 0.45,
   fontFamily:
     'var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   headings: { fontFamily: 'var(--font-inter), sans-serif', fontWeight: '700' },
