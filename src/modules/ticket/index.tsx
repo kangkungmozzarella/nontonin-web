@@ -1,8 +1,16 @@
 import { Button, Group, Stack, Text, Title } from '@mantine/core';
-import { Armchair, CheckCircle, Printer, Ticket } from '@phosphor-icons/react';
+import { notifications } from '@mantine/notifications';
+import {
+  Armchair,
+  CheckCircle,
+  DownloadSimple,
+  Ticket,
+} from '@phosphor-icons/react';
+import { toJpeg } from 'html-to-image';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import React from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useTranslation } from 'react-i18next';
 import { formatDate, formatIDR } from 'common/helpers/format';
@@ -35,6 +43,32 @@ export default function TicketScreen() {
     .query as RouterQueryType<NavigationRoutes.TicketDetail>;
   const { bookings, ready } = useBookings();
   const b = bookings.find((x) => x.id === query.id);
+  const ticketRef = React.useRef<HTMLElement>(null);
+  const [saving, setSaving] = React.useState(false);
+
+  // Snapshot the ticket card as a JPG, so it can go to the gallery or a chat
+  const saveImage = async () => {
+    if (!ticketRef.current || !b) return;
+    setSaving(true);
+    try {
+      const url = await toJpeg(ticketRef.current, {
+        quality: 0.95,
+        pixelRatio: 2,
+        backgroundColor: colors.panel,
+      });
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `nontonin-${b.code}.jpg`;
+      a.click();
+    } catch {
+      notifications.show({
+        message: t('layout:ticket.saveImageFailed'),
+        color: 'red',
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
 
   if (!b)
     return (
@@ -65,7 +99,7 @@ export default function TicketScreen() {
           </div>
         )}
 
-        <article className={styles.ticket}>
+        <article ref={ticketRef} className={styles.ticket}>
           <div>
             <div className={styles.hero}>
               <Image
@@ -159,10 +193,11 @@ export default function TicketScreen() {
           <Button
             variant="default"
             size="md"
-            leftSection={<Printer size={18} />}
-            onClick={() => window.print()}
+            leftSection={<DownloadSimple size={18} />}
+            onClick={saveImage}
+            loading={saving}
           >
-            {t('layout:ticket.print')}
+            {t('layout:ticket.saveImage')}
           </Button>
           <Button
             component={Link}

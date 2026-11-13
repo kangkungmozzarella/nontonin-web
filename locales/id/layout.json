@@ -99,7 +99,8 @@
   "ticket": {
     "successTitle": "Pembayaran berhasil",
     "successDesc": "Tiketmu sudah tersimpan di Tiket saya.",
-    "print": "Cetak tiket",
+    "saveImage": "Simpan sebagai JPG",
+    "saveImageFailed": "Gagal menyimpan gambar tiket. Coba lagi.",
     "allTickets": "Semua tiket",
     "seats": "Kursi",
     "studio": "Studio",

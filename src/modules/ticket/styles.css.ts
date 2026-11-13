@@ -1,5 +1,5 @@
 import breakpoints from 'common/styles/breakpoint';
-import { globalStyle, style, vars } from 'styles/styles.css';
+import { style, vars } from 'styles/styles.css';
 
 export const page = style({ paddingTop: 40, maxWidth: 920 });
 
@@ -84,14 +84,4 @@ export const actions = style({
   flexWrap: 'wrap',
   gap: 12,
   marginTop: 24,
-});
-
-// Print just the ticket on a light background
-globalStyle('body', {
-  '@media': {
-    print: { background: '#fff' },
-  },
-});
-globalStyle(`header, footer, aside, nav, .${actions}, .${success}`, {
-  '@media': { print: { display: 'none !important' } },
 });

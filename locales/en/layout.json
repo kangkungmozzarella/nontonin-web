@@ -99,7 +99,8 @@
   "ticket": {
     "successTitle": "Payment successful",
     "successDesc": "Your ticket is saved in My tickets.",
-    "print": "Print ticket",
+    "saveImage": "Save as JPG",
+    "saveImageFailed": "Could not save the ticket image. Try again.",
     "allTickets": "All tickets",
     "seats": "Seats",
     "studio": "Studio",
